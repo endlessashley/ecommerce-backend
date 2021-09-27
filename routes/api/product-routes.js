@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Category and Tag data
   try {
     const productData = await Product.findAll({
-      include: [{model: Tag, through: ProductTag}, {model: Category}]
+      include: [{ model: Tag, through: ProductTag }, { model: Category }]
     });
     res.status(200).json(productData);
   } catch (err) {
@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Category and Tag data
   try {
     const productData = await Product.findByPk(req.params.id, {
-      include: [{model: Category}, {model: Tag, through: ProductTag}],
+      include: [{ model: Category }, { model: Tag, through: ProductTag }],
     });
 
     if (!productData) {
@@ -47,9 +47,10 @@ router.post('/', (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
-
+ 
   Product.create(req.body)
     .then((product) => {
+      console.log(product);
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
       if (req.body.tagIds.length) {
         const productTagIdArr = req.body.tagIds.map((tag_id) => {
@@ -113,25 +114,25 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
+  // delete one product by its `id` value
   try {
-    const tagData = await ProductTag.destroy({
+    const ProductData = await Product.destroy({
       where: {
-        product_id: req.params.id,
-      },
+        id: req.params.id
+      }
     });
-    const productData = await Product.destroy({
-      where: {
-        id: req.params.id,
-      },
-    });
-    if (!productData) {
-      res.status(404).json({ message: 'No product found with that id!' });
+
+    if (!ProductData) {
+      res.status(404).json({ message: 'No Product found with this id!' });
       return;
     }
-    res.status(200).json(productData);
+
+    res.status(200).json(ProductData);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
 module.exports = router;
+
+
