@@ -2,7 +2,7 @@
 Sequelize routes to query a MySQL database comprised of store inventory
 
 # Technologies:
-Javascript, Sequelize, MySQL, Node, Express, Insomnia
+Javascript, Sequelize, MySQL, Node, Express
 
 # Walkthrough video:
 https://watch.screencastify.com/v/QFH6qfGN583L8we9buwo
